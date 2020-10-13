@@ -1,10 +1,20 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from "react";
 
-import {DataContext} from '../../DataContext';
+import { DataContext } from "../../DataContext";
 
-export default function Vehicle({match}) {
-  const {loading, vehicles} = useContext(DataContext);
-  const [vehicle, setVehicle] = useState(vehicles[match.params.id-1]);
+export default function Vehicle({ match }) {
+  const { loading, vehicles } = useContext(DataContext);
+  const [vehicle, setVehicle] = useState(vehicles[match.params.id - 1]);
+
+  useEffect(() => {
+    function check() {
+      if (!vehicle) {
+        setTimeout(check(), 500);
+      } else {
+        return vehicle;
+      }
+    }
+  });
 
   return (
     <>
@@ -30,5 +40,5 @@ export default function Vehicle({match}) {
       <strong>Max atmosphering speed</strong>
       <p>{vehicle.max_atmosphering_speed}</p>
     </>
-  )
+  );
 }

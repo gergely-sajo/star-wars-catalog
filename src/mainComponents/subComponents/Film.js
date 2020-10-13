@@ -1,10 +1,20 @@
-import React, {useState, useContext} from 'react';
+import React, { useState, useContext, useEffect } from "react";
 
-import {DataContext} from '../../DataContext';
+import { DataContext } from "../../DataContext";
 
 export default function Film({ match }) {
-  const {loading, films} = useContext(DataContext);
-  const [film, setFilm] = useState(films[match.params.id-1]);
+  const { loading, films } = useContext(DataContext);
+  const [film, setFilm] = useState(films[match.params.id - 1]);
+
+  useEffect(() => {
+    function check() {
+      if (!film) {
+        setTimeout(check(), 500);
+      } else {
+        return film;
+      }
+    }
+  });
 
   return (
     <div>
@@ -18,5 +28,5 @@ export default function Film({ match }) {
       <strong>Release date</strong>
       <p>{film.release_date}</p>
     </div>
-  )
+  );
 }

@@ -1,11 +1,23 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from "react";
 
-import {DataContext} from '../../DataContext';
+import { DataContext } from "../../DataContext";
 
 export default function Person({ match }) {
-  const {loading, people, planets} = useContext(DataContext);
-  const [person, setPerson] = useState(people[match.params.id-1]);
-  const [planet, setPlanet] = useState(planets[person.homeworld.charAt(person.homeworld.length-2)-1])
+  const { loading, people, planets } = useContext(DataContext);
+  const [person, setPerson] = useState(people[match.params.id - 1]);
+  const [planet, setPlanet] = useState(
+    planets[person.homeworld.charAt(person.homeworld.length - 2) - 1]
+  );
+
+  useEffect(() => {
+    function check() {
+      if (!person) {
+        setTimeout(check(), 500);
+      } else {
+        return person;
+      }
+    }
+  });
 
   return (
     <>
@@ -27,5 +39,5 @@ export default function Person({ match }) {
       <strong>Skin color</strong>
       <p>{person.skin_color}</p>
     </>
-  )
+  );
 }

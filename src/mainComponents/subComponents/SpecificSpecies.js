@@ -1,10 +1,22 @@
-import React, {useState, useContext} from 'react';
+import React, { useState, useContext, useEffect } from "react";
 
-import {DataContext} from '../../DataContext';
+import { DataContext } from "../../DataContext";
 
 export default function SpecificSpecies({ match }) {
-  const {loading, species} = useContext(DataContext);
-  const [specificSpecies, setSpecificSpecies] = useState(species[match.params.id-1]);
+  const { loading, species } = useContext(DataContext);
+  const [specificSpecies, setSpecificSpecies] = useState(
+    species[match.params.id - 1]
+  );
+
+  useEffect(() => {
+    function check() {
+      if (!specificSpecies) {
+        setTimeout(check(), 500);
+      } else {
+        return specificSpecies;
+      }
+    }
+  });
 
   return (
     <div>
@@ -26,5 +38,5 @@ export default function SpecificSpecies({ match }) {
       <strong>Skin color</strong>
       <p>{specificSpecies.skin_colors}</p>
     </div>
-  )
+  );
 }
